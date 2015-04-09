@@ -1,0 +1,34 @@
+/public/media
+
+# UI files built from source
+/public/ui/application/build
+
+# Laravel environment configuration files
+/.env.php
+/.env.*.php
+
+# Composer libs (Third party PHP)
+/vendor
+
+# Bower libs (Third party JS / CSS)
+/public/ui/libs/bower_components
+
+# NodeJS libs
+/node_modules
+
+# Generic junk files that we don't want polluting the repo
+.DS_Store
+Thumbs.db
+.idea/*
+.idea
+
+# Google verification file
+public/google*.html
+npm-debug.log
+
+# Local vagrant information
+.vagrant
+
+# Local PhpStorm information
+.idea
+.idea/asfeed.iml
