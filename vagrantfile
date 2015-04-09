@@ -1,0 +1,64 @@
+require 'socket'
+require 'uri'
+require 'open-uri'
+
+# Ensure vagrant up is run from the repo root.
+if (!File.exists?(File.join(Dir.pwd,'vagrantfile')))
+	puts "[ERROR] You must run vagrant from the root of the repo"
+	exit
+end
+
+# Check for public network config.
+if (!File.exists?('./vagrant/public-network.rb'))
+	puts "[ERROR] You need to have the file /vagrant/public-network.rb"
+	exit
+end
+
+# Include other config and utilities.
+Dir["./vagrant/*.rb"].each {|file| require file }
+
+# Define the virtual machines.
+MACHINES = {
+	'pricecomp'	=> {
+		'ip'		=> '192.168.190.35',
+		'hosts'		=> [
+			/^pricecomp.host.localdev$/,
+			/^.*pricecomp.localdev$/,
+		],
+		'manifest'	=> 'pricecomp.pp',
+		'name'		=> 'pricecomp',
+		'init'      => 'vagrant/provision/init-yum.sh',
+	},
+}
+
+# Let the fun begin!
+Vagrant.configure('2') do |config|
+	config.vm.box = 'rmnuk-centos-64-64bit'
+	config.vm.box_url = 'http://eops.rmnuk.net/vagrant/boxes/rmnuk-centos-64-64bit.box'
+	config.ssh.username = 'rmnuk-vagrant'
+	config.ssh.private_key_path = '../rmnuk-vagrant.key'
+	config.dns.tld = 'localdev'
+	config.registerdns.public_domain = PUBLIC_DOMAIN
+
+	MACHINES.each do |name, machine|
+		config.vm.define name do |machine_config|
+			machine_config.vm.hostname = name + '.host.localdev'
+			machine_config.dns.patterns = machine['hosts']
+			machine_config.vm.network :private_network, ip: machine['ip']
+			machine_config.registerdns.machines = machine['hosts']
+			if (is_on_wsm_network() && defined?(BRIDGE_ADAPTER) && defined?(PUBLIC_DOMAIN))
+				machine_config.vm.network :public_network, :bridge => BRIDGE_ADAPTER
+			end
+			machine_config.vm.provision 'shell', path: machine['init']
+			if machine['manifest'] != ''
+				machine_config.vm.provision 'puppet' do |puppet|
+					puppet.manifests_path = 'vagrant/provision/puppet'
+					puppet.manifest_file = machine['manifest']
+				end
+			end
+			machine_config.vm.provider "virtualbox" do |v|
+				v.name = machine['name']
+			end
+		end
+	end
+end

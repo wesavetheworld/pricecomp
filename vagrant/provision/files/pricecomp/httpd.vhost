@@ -1,0 +1,27 @@
+Listen 8080
+
+NameVirtualHost *:8080
+
+<Directory /vagrant>
+	AllowOverride All
+</Directory>
+
+<VirtualHost *:8080>
+	DocumentRoot /var/www/html
+	ServerName pricecomp.host.localdev
+</VirtualHost>
+
+<VirtualHost *:8080>
+	DocumentRoot /vagrant/public
+	ServerName pricecomp.localdev
+	ServerAlias pricecomp.local
+	ServerAlias www.pricecomp.localdev
+	ServerAlias www.pricecomp.*.ldneng
+	RewriteEngine On
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-d
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_URI} !^/_shared/
+	RewriteRule ^ %{DOCUMENT_ROOT}/_init.php [L]
+	Alias /_shared /vagrant/src/sites/public/_shared
+</VirtualHost>
+
