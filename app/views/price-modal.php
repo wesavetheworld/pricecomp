@@ -1,7 +1,7 @@
 <form action="/products/price/" method="post" role="form" enctype="multipart/form-data">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h2 class="modal-title" id="myModalLabel"><img src="<?php echo($product->img_url); ?>" class="img-thumbnail" width="40"> Add <?php echo($product->product_name); ?> price</h2>
+        <h2 class="modal-title" id="myModalLabel"><img src="<?php echo($product->img_url); ?>" class="img-thumbnail" width="40"> Add <?php echo($product->product_name); ?> price <button type="button" class="btn btn-sm btn-primary">£<?php echo($product->rrp); ?> RRP</button></h2>
     </div>
     <div class="modal-body">
         <input type="hidden" name="product_id" value="<?php echo($product->product_id); ?>" />

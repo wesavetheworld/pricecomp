@@ -1,8 +1,8 @@
-<?php echo View::make('header', array('title' => '', 'products' => $products, 'merchants' => $merchants)) ?>
+<?php echo View::make('header', array('title' => '', 'products' => $products, 'merchants' => $merchants, 'siteData' => $siteData)) ?>
 
 <div class="jumbotron">
-    <h1>Price Comparison!</h1>
-    <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet.</p>
+    <h1><?php echo($siteData['homepage_title']); ?></h1>
+    <p class="lead"><?php echo($siteData['homepage_desc']); ?></p>
 </div>
 
 <div class="row">

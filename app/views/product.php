@@ -1,4 +1,4 @@
-<?php echo View::make('header', array('title' => '- ' .$product->product_name, 'products' => $products, 'merchants' => $merchants)) ?>
+<?php echo View::make('header', array('title' => '- ' .$product->product_name, 'products' => $products, 'merchants' => $merchants, 'siteData' => $siteData)) ?>
 
 <div class="row">
     <div class="col-md-2">

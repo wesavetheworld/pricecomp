@@ -12,7 +12,8 @@ class ProductController extends BaseController
                 'product' => $product,
                 'products' => Data::getProducts(),
                 'merchants' => Data::getMerchants(),
-                'prices' => Data::getProductPrices($product->product_id)
+                'prices' => Data::getProductPrices($product->product_id),
+                'siteData' => Data::getSiteData(true)
             ));
         }
     }
@@ -21,7 +22,8 @@ class ProductController extends BaseController
     {
         return View::make('products', array(
             'products' => Data::getProducts(),
-            'merchants' => Data::getMerchants()
+            'merchants' => Data::getMerchants(),
+            'siteData' => Data::getSiteData(true)
         ));
     }
 
@@ -90,11 +92,20 @@ class ProductController extends BaseController
         );
 
         Utils::insertEntry($price, 'product_prices');
+        Data::setChartData($price['product_id']);
 
         if ($product = Data::getProduct($price['product_id'], 'product_id')) {
             return Redirect::to('/product/'.$product->label);
         } else {
             Redirect::to('/');
         }
+    }
+
+    public function getTest()
+    {
+        $date = '2015-04-09';
+
+        print_r(Data::getProductDayChartData(1, $date));
+
     }
 }
