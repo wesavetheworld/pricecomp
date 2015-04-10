@@ -38,6 +38,10 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Products<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
+                            <?php foreach ($products as $product) { ?>
+                                <li><a href="/product/<?php echo($product->label); ?>">View <?php echo($product->product_name); ?></a></li>
+                            <?php } ?>
+                            <li class="divider"></li>
                             <li><a href="#" class="load-modal" modal-url="/products/modal/">Add new product</a></li>
                             <li class="divider"></li>
                             <?php foreach ($products as $product) { ?>

@@ -36,7 +36,8 @@ class ProductController extends BaseController
                 'product_name' => '',
                 'label' => '',
                 'rrp' => 0,
-                'img_url' => ''
+                'img_url' => '',
+                'description' => ''
             );
         } else {
             $product = get_object_vars($product);
@@ -65,7 +66,8 @@ class ProductController extends BaseController
             'product_name' => Input::get('product_name'),
             'label' => Input::get('label'),
             'rrp' => Input::get('rrp'),
-            'img_url' => Input::get('img_url')
+            'img_url' => Input::get('img_url'),
+            'description' => Input::get('description')
         );
 
         if ($product['product_id'] == 0) {

@@ -2,14 +2,15 @@
 
 <div class="row">
     <div class="col-md-2">
-        <p><a href="/product/<?php echo($product->label); ?>"><img src="<?php echo($product->img_url); ?>" class="img-thumbnail"></a></p>
+        <p><a href="/product/<?php echo($product->label); ?>"><img src="<?php echo($product->img_url); ?>" width="158" class="img-thumbnail"></a></p>
     </div>
     <div class="col-md-10">
-        <h2><?php echo($product->product_name); ?></h2>
-        <p>
+        <h2>
+            <?php echo($product->product_name); ?>
             <button type="button" class="btn btn-sm btn-primary">£<?php echo($product->rrp); ?> RRP</button>
             <?php if (isset($prices[0]->price)) { echo('<button type="button" class="btn btn-sm btn-warning">£'.$prices[0]->price.' best price</button>'); } ?>
-        </p>
+        </h2>
+        <p><?php echo($product->description); ?></p>
     </div>
 </div>
 

@@ -12,13 +12,18 @@
         </div>
 
         <div class="form-group">
-            <label for="label">Product label</label>
+            <label for="label">Product label (URL)</label>
             <input type="text" id="label" name="label" class="form-control" value="<?php echo($product['label']); ?>" />
         </div>
 
         <div class="form-group">
             <label for="label">RRP (£)</label>
             <input type="text" id="rrp" name="rrp" class="form-control" value="<?php echo($product['rrp']); ?>" />
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" class="form-control" rows="3"><?php echo($product['description']); ?></textarea>
         </div>
 
         <div class="form-group">
