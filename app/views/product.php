@@ -23,7 +23,7 @@
                     <td><img src="<?php echo($price->merchant_img_url); ?>" class="img-thumbnail"></td>
                     <td><h2><?php echo($price->merchant_name); ?></h2></td>
                     <td><h2>£<?php echo($price->price); ?></h2></td>
-                    <td><h2><?php echo($price->offer_type); ?></h2></td>
+                    <td><h5 style="padding-top: 10px;"><?php echo($price->offer_type); ?><br>Added <?php echo(date('d/m/y H:i', strtotime($price->date))); ?></h5></td>
                     <td>
                         <?php if ($price->price_url && $price->price_url != '') { ?>
                             <h2><a href="<?php echo($price->price_url); ?>" target="_blank" class="btn btn-success">Buy</a></h2>

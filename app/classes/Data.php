@@ -34,14 +34,27 @@ class Data
 
     public static function getProductPrices($productID)
     {
-        return DB::select("
-            select *, max(pp.date)
-            from product_prices pp
-            inner join merchants m on pp.merchant_id = m.merchant_id
-            where pp.product_id = ".$productID."
-            group by pp.merchant_id
-            order by pp.price
-        ");
+        $latestIDs = null;
+        $merchants = DB::select("select distinct(merchant_id) from product_prices where product_id = ".$productID);
+
+        if ($merchants) {
+            foreach ($merchants as $merchant) {
+                $merchantPrice = DB::select("select id from product_prices where merchant_id = ".$merchant->merchant_id." order by date desc limit 0, 1");
+                $latestIDs[] = $merchantPrice[0]->id;
+            }
+        }
+
+        if ($latestIDs) {
+            return DB::select("
+                select *
+                from product_prices pp
+                inner join merchants m on pp.merchant_id = m.merchant_id
+                where pp.id in (".implode(',', $latestIDs).")
+                order by pp.price
+            ");
+        } else {
+            return array();
+        }
     }
 
     public static function getSiteData($asList = false)

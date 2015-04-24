@@ -11,7 +11,7 @@
         <h4><?php echo($product->product_name); ?></h4>
         <p><a href="/product/<?php echo($product->label); ?>"><img src="<?php echo($product->img_url); ?>" class="img-thumbnail"></a></p>
     </div>
-<? } ?>
+<?php } ?>
 </div>
 
 <?php echo View::make('footer') ?>

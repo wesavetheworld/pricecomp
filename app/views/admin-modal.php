@@ -5,7 +5,7 @@
         <h4 class="modal-title" id="myModalLabel">Update site data</h4>
     </div>
     <div class="modal-body">
-        <? foreach ($siteData as $data) { ?>
+        <?php foreach ($siteData as $data) { ?>
             <div class="form-group">
                 <label for="<?php echo($data->label); ?>"><?php echo($data->label); ?></label>
                 <textarea id="<?php echo($data->label); ?>" name="<?php echo($data->label); ?>" class="form-control" rows="3"><?php echo($data->text); ?></textarea>
