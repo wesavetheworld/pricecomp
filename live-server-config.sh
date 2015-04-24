@@ -229,3 +229,60 @@ apt-get install -y beanstalkd
 sed -i "s/BEANSTALKD_LISTEN_ADDR.*/BEANSTALKD_LISTEN_ADDR=0.0.0.0/" /etc/default/beanstalkd
 sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 /etc/init.d/beanstalkd start
+
+cat > /etc/nginx/sites-available/default << EOF
+server {
+    listen 80 default_server;
+    server_name default;
+    root /home/pricecomparison/pricecomparison/public;
+
+    client_max_body_size 4G;
+    client_body_buffer_size 1024k;
+
+    index index.html index.htm index.php;
+
+    charset utf-8;
+
+    location / {
+        try_files \$uri \$uri/ /index.php?\$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    access_log /var/log/nginx/pricecomparison-access.log;
+    error_log  /var/log/nginx/pricecomparison-error.log error;
+
+    error_page 404 /index.php;
+
+    location ~ \.php\$ {
+        try_files $uri /index.php =404;
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}
+EOF
+
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+cat > /home/pricecomparison/pricecomparison/.env.php << EOF
+<?php
+return array(
+    'DB_HOST'                       => '127.0.0.1',
+    'DB_DATABASE'                   => 'price_comparison',
+    'DB_USER'                       => 'pricecomparison',
+    'DB_PASS'                       => 'Pr1CeC0mPar1S0n',
+    'APP_DEBUG'                     => true,
+    'APP_URL'                       => 'http://pricecomp.wsm.local',
+    'REDIS_HOST'                    => '127.0.0.1'
+);
+EOF
+
+service nginx restart
+service php5-fpm restart
