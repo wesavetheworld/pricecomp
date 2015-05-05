@@ -2,7 +2,6 @@
 
 use classes\Data;
 use classes\Utils;
-use Request;
 
 class MerchantController extends BaseController
 {
