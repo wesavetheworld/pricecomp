@@ -1,3 +1,4 @@
+#!/bin/sh
 
 # Upgrade The Base Packages
 apt-get update
